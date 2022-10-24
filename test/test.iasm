@@ -1,0 +1,18 @@
+.section text:
+_start:
+    READ rg1, 0x00  ; system call for write
+    READ rg2, 0x01  ; stdout file descriptor
+    READ rg7, msg   ; offset of message
+    READ rg8, %len  ; value stored at offset of len
+    INT             ; interupt and call syscall handler
+
+    READ rg1, 0x04  ; system call for exit
+    READ rg7, 0x00  ; return code
+    INT
+
+.section data:
+    msg: .db "Hello World!\n"
+    len: .- msg
+
+.section stab:
+    global _start:  ; global declaration of _start
